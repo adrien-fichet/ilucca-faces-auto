@@ -61,14 +61,14 @@ test('Play the game', async ({ page }) => {
           // If we have a screenshot of the person, compare it to the current photo to be guessed
           const img1 = PNG.sync.read(fs.readFileSync(newScreenshotFilename))
           const img2 = PNG.sync.read(fs.readFileSync(screenshotFilename))
-          console.log(`(${img1.width}, ${img1.height}), (${img2.width}, ${img2.height})`)
+          //console.log(`(${img1.width}, ${img1.height}), (${img2.width}, ${img2.height})`)
           const diff = pixelmatch(img1.data, img2.data, null, 261, 260, {threshold: 0.1})
 
           // If it matches:
           // - select the right answer
           // - remove the screenshot of the current photo to be guessed (no need to save it)
           // - we found the answer, so go to the next photo to be guessed
-          if (diff <= 5000) {
+          if (diff <= 7500) {
             foundAnswer = true
             await answers.getByText(name.trim()).click()
             fs.rmSync(newScreenshotFilename)
@@ -80,7 +80,7 @@ test('Play the game', async ({ page }) => {
       if (!foundAnswer) {
         // We did not find any matches, so pick a random guess and do not delete the screenshot
         // (it will have to be renamed manually with the right person name, in order to be used next time)
-        console.log('did not find answer for:', names.join('-'))
+        console.log('Did not find answer for:', names.join('-'))
         const randomNum = randomIntFromInterval(0, 3)
         await answers.locator(`nth=${randomNum}`).click()
       }

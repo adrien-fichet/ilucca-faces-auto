@@ -10,13 +10,13 @@ export default defineConfig({
   use: {
     trace: 'on-first-retry',
   },
-
+  globalSetup: require.resolve('./global-setup'),
   projects: [
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'user.json',
+        storageState: './user.json',
       },
     },
   ]
