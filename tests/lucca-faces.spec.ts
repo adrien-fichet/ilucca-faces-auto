@@ -61,6 +61,7 @@ test('Play the game', async ({ page }) => {
           // If we have a screenshot of the person, compare it to the current photo to be guessed
           const img1 = PNG.sync.read(fs.readFileSync(newScreenshotFilename))
           const img2 = PNG.sync.read(fs.readFileSync(screenshotFilename))
+          console.log(`(${img1.width}, ${img1.height}), (${img2.width}, ${img2.height})`)
           const diff = pixelmatch(img1.data, img2.data, null, 261, 260, {threshold: 0.1})
 
           // If it matches:
@@ -91,6 +92,7 @@ test('Play the game', async ({ page }) => {
     }
 
     // Play again!
+    console.log(await page.getByText(/Ton score.+/).textContent())
     await page.getByRole('button', { 'name': 'Rejouer' }).click()
   }
 })
